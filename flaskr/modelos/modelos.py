@@ -6,37 +6,29 @@ import enum
 
 db = SQLAlchemy()
 
-albumes_canciones = db.Table('album_cancion',
-    db.Column('album_id', db.Integer, db.ForeignKey('album.id'), primary_key = True),
-    db.Column('cancion_id', db.Integer, db.ForeignKey('cancion.id'), primary_key = True))
+class Categoria(enum.Enum):
+   CONFERENCIA = 1
+   SEMINARIO = 2
+   CONGRESO = 3
+   CURSO = 4
 
-class Cancion(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    titulo = db.Column(db.String(128))
-    minutos = db.Column(db.Integer)
-    segundos = db.Column(db.Integer)
-    interprete = db.Column(db.String(128))
-    albumes = db.relationship('Album', secondary = 'album_cancion', back_populates="canciones")
-
-class Medio(enum.Enum):
-   DISCO = 1
-   CASETE = 2
-   CD = 3
-
-class Album(db.Model):
+class Evento(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     titulo = db.Column(db.String(128))
-    anio = db.Column(db.Integer)
-    descripcion = db.Column(db.String(512))
-    medio = db.Column(db.Enum(Medio))
+    #categoria = db.Column(db.Enum(Categoria))
+    categoria = db.Column(db.String(128))
+    lugar = db.Column(db.String(128))
+    direccion = db.Column(db.String(128))
+    fecha_inicio = db.Column(db.String(128))
+    fecha_fin = db.Column(db.String(128))
+    presencialidad = db.Column(db.String(128))
     usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
-    canciones = db.relationship('Cancion', secondary = 'album_cancion', back_populates="albumes")
-    
+
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(50))
+    mail = db.Column(db.String(50))
     contrasena = db.Column(db.String(50))
-    albumes = db.relationship('Album', cascade='all, delete, delete-orphan')
+    eventos = db.relationship('Evento', cascade='all, delete, delete-orphan')
 
 class EnumADiccionario(fields.Field):
     def _serialize(self, value, attr, obj, **kwargs):
@@ -44,16 +36,10 @@ class EnumADiccionario(fields.Field):
             return None
         return {"llave": value.name, "valor": value.value}
 
-class CancionSchema(SQLAlchemyAutoSchema):
+class EventoSchema(SQLAlchemyAutoSchema):
+    #categoria = EnumADiccionario(attribute=("categoria"))
     class Meta:
-         model = Cancion
-         include_relationships = True
-         load_instance = True
-
-class AlbumSchema(SQLAlchemyAutoSchema):
-    medio = EnumADiccionario(attribute=("medio"))
-    class Meta:
-         model = Album
+         model = Evento
          include_relationships = True
          load_instance = True
 
@@ -62,3 +48,4 @@ class UsuarioSchema(SQLAlchemyAutoSchema):
          model = Usuario
          include_relationships = True
          load_instance = True
+ 

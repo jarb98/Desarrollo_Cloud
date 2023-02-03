@@ -1,0 +1,41 @@
+<h1>Lista Eventos del Usuario</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th class='t4'>Titulo</th>
+      <th class='t4'>Categoria</th>
+      <th class='t4'>Lugar</th>
+      <th class='t4'>Direccion</th>
+      <th class='t4'>Fecha Inicio</th>
+      <th class='t4'>Fecha Final</th>
+      <th class='t4'>Presencialidad</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let c of eventos">
+      <td>
+        <dd>{{c.titulo}}</dd>
+      </td>
+      <td>
+        <dd>{{c.categoria}}</dd>
+      </td>
+      <td>
+        <dd>{{c.lugar}}</dd>
+      </td>
+      <td>
+        <dd>{{c.direccion}}</dd>
+      </td>
+      <td>
+        <dd>{{c.fecha_inicio}}</dd>
+      </td>
+      <td>
+        <dd>{{c.fecha_fin}}</dd>
+      </td>
+      <td>
+        <dd>{{c.presencialidad}}</dd>
+      </td>
+    </tr>
+  </tbody>
+
+</table>
+

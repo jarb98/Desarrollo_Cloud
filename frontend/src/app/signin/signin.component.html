@@ -1,0 +1,21 @@
+<div class="signin">
+  <form class="custom-form" method="post">
+    <h1>Signin</h1>
+    <input
+      type="mail"
+      [(ngModel)]="mail"
+      name="mail"
+      placeholder="mail"
+      required="required"
+    />
+    <input
+      type="password"
+      [(ngModel)]="contrasena"
+      name="contrasena"
+      placeholder="Contrasena"
+      required="required"
+    />
+    <button type="submit" (click)="signin()">Signin</button>
+    <button type="submit" (click)="login_route()">Log in</button>
+  </form>
+</div>
